@@ -1,16 +1,15 @@
-import { useState } from "react"
-import { availableScenes } from "../scenes"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "../../components/ui/card"
-import { Button } from "../../components/ui/button"
-import { FaList, FaThLarge } from "react-icons/fa"
-import { SceneSelector } from "./SceneSelector"
-import { BabylonScene } from "./BabylonScene"
+import { useState } from "react";
+import { availableScenes } from "../scenes";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "../../components/ui/card";
+import { Button } from "../../components/ui/button";
+import { FaList, FaThLarge } from "react-icons/fa";
+import { SceneSelector } from "./SceneSelector";
 
 interface SceneViewToggleProps {
-  currentScene: string
-  onSceneChange: (sceneId: string) => void
+  currentScene: string;
+  onSceneChange: (sceneId: string) => void;
   // Optionally, children can be passed as the canvas content
-  children?: React.ReactNode
+  children?: React.ReactNode;
 }
 
 export const SceneViewToggle = ({
@@ -18,12 +17,12 @@ export const SceneViewToggle = ({
   onSceneChange,
   children, // remove later
 }: SceneViewToggleProps) => {
-  const [viewMode, setViewMode] = useState<"selector" | "cards">("cards") // Default to "cards" for sidebar
+  const [viewMode, setViewMode] = useState<"selector" | "cards">("cards"); // Default to "cards" for sidebar
 
   return (
-    <div className="flex">
+    <div className="flex h-screen"> 
       {/* Sidebar */}
-      <aside className="w-72 min-w-[16rem] max-w-xs bg-muted/40 border-r h-full flex flex-col">
+      <aside className="w-72 min-w-[16rem] max-w-xs bg-muted/40 border-r flex flex-col overflow-auto">
         <div className="p-4 border-b flex flex-col gap-2">
           <Button
             variant={viewMode === "selector" ? "default" : "outline"}
@@ -55,21 +54,24 @@ export const SceneViewToggle = ({
         </div>
       </aside>
       {/* Canvas Area */}
-      <main className="flex-1 h-full w-full overflow-hidden pr-2">
-<BabylonScene/>
-      </main>
+      <div className="flex-1 flex flex-col h-screen">
+        {/* Canvas fills the rest */}
+        <main className="flex-1 w-full overflow-hidden flex flex-col">
+          {children}
+        </main>
+      </div>
     </div>
-  )
-}
+  );
+};
 
 // Card view for scenes
 interface SceneCardListProps {
-  currentScene: string
-  onSceneChange: (sceneId: string) => void
+  currentScene: string;
+  onSceneChange: (sceneId: string) => void;
 }
 const SceneCardList = ({ currentScene, onSceneChange }: SceneCardListProps) => (
   <div className="flex flex-col gap-4">
-    {availableScenes.map(scene => (
+    {availableScenes.map((scene) => (
       <Card
         key={scene.id}
         className={`cursor-pointer transition-shadow hover:shadow-lg ${
@@ -87,4 +89,4 @@ const SceneCardList = ({ currentScene, onSceneChange }: SceneCardListProps) => (
       </Card>
     ))}
   </div>
-)
+);

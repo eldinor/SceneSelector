@@ -12,6 +12,8 @@ const nextConfig = {
   devIndicators: false,
   distDir: "out",
   output: 'export',
+//  basePath: '/selector',
+ // assetPrefix: '/selector/',
 }
 
 export default nextConfig
