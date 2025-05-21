@@ -1,4 +1,19 @@
 import type { Config } from "tailwindcss";
+import colors from "tailwindcss/colors";
+
+// List of deprecated color keys in Tailwind
+const deprecatedColors = [
+  "lightBlue",
+  "warmGray",
+  "trueGray",
+  "coolGray",
+  "blueGray"
+];
+
+// Filter out deprecated colors
+const filteredColors = Object.fromEntries(
+  Object.entries(colors).filter(([key]) => !deprecatedColors.includes(key))
+);
 
 const config: Config = {
     darkMode: ["class"],
@@ -6,11 +21,15 @@ const config: Config = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
     "*.{js,ts,jsx,tsx,mdx}"
   ],
   theme: {
   	extend: {
   		colors: {
+        // Include Tailwind's default colors minus deprecated ones
+        ...filteredColors,
+        // Custom CSS variable-based colors
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

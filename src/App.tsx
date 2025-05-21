@@ -17,9 +17,9 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen w-full bg-background text-foreground">
+    <div className="flex flex-col min-h-screen w-full ">
       <header className="w-full px-6 py-4 bg-card text-card-foreground shadow-md z-10">
-        <h1 className="text-2xl font-bold mb-2 tracking-tight">Scene Selector</h1>
+        <h1 className="text-2xl font-bold mb-2 px-4 ">Scene Selector</h1>
         <SceneViewToggle onSceneChange={handleSceneChange} currentScene={currentScene} />
       </header>
 

@@ -55,7 +55,7 @@ export const SceneViewToggle = ({
         </div>
       </aside>
       {/* Canvas Area */}
-      <main className="flex-1 h-full w-full overflow-hidden">
+      <main className="flex-1 h-full w-full overflow-hidden pr-2">
 <BabylonScene/>
       </main>
     </div>

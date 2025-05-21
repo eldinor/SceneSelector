@@ -35,8 +35,9 @@
     ]
   },
   "include": [
+    ".next/types/**/*.ts",
     "src",
-    ".next/types/**/*.ts"
+    "out/types/**/*.ts"
   ],
   "references": [
     {

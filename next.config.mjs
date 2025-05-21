@@ -9,6 +9,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  devIndicators: false,
+  distDir: "out",
+  output: 'export',
 }
 
 export default nextConfig
