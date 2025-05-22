@@ -8,6 +8,9 @@ dependencies:
   '@babylonjs/core':
     specifier: latest
     version: 8.8.5
+  '@babylonjs/gui':
+    specifier: ^8.8.5
+    version: 8.8.5(@babylonjs/core@8.8.5)
   '@hookform/resolvers':
     specifier: ^3.9.1
     version: 3.10.0(react-hook-form@7.56.4)
@@ -411,6 +414,14 @@ packages:
 
   /@babylonjs/core@8.8.5:
     resolution: {integrity: sha512-IrOwzSrE/9WfkgDwhdR4AET7Z1+ftJCZW5sPIdUJFBLT2n6M0Gc3aOyTunwGObDsGbRUZFdZTR+S2rI/YEKfdw==}
+    dev: false
+
+  /@babylonjs/gui@8.8.5(@babylonjs/core@8.8.5):
+    resolution: {integrity: sha512-HLY6QE9tg7x3+8Fb2sgnQp/0DoKzogb93Kloq3sFOHZECu0T/Xh8PDLLfR8ytw8S2R3H5kolsxnzjyUGJ7Gjbw==}
+    peerDependencies:
+      '@babylonjs/core': ^8.0.0
+    dependencies:
+      '@babylonjs/core': 8.8.5
     dev: false
 
   /@bufbuild/protobuf@2.4.0:

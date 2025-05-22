@@ -2,7 +2,7 @@ import type { Scene } from "@babylonjs/core";
 import { createDefaultScene } from "./defaultScene";
 import { createSphereScene } from "./sphereScene";
 import { createComplexScene } from "./complexScene";
-import { createTestScene } from "./testScene";
+import { createEnergyShield } from "./testScene";
 import { createTestScene2 } from "./testScene2";
 
 // Define available scenes
@@ -23,9 +23,9 @@ export const availableScenes = [
     description: "Multiple animated cubes, ground, and a moving point light.",
   },
   {
-    id: "test",
-    name: "Test Scene",
-    description: "Testing!",
+    id: "energy",
+    name: "Energy Shield",
+    description: "Shader Material which may take a damage and become thinner.",
   },
   {
     id: "test2",
@@ -46,8 +46,8 @@ export function loadScene(sceneName: string, scene: Scene): void {
     case "complex":
       createComplexScene(scene);
       break;
-    case "test":
-      createTestScene(scene);
+    case "energy":
+      createEnergyShield(scene);
       break;
     case "test2":
       createTestScene2(scene);

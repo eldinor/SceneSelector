@@ -69,6 +69,7 @@ export const BabylonScene = () => {
 
     // Load default scene
     loadScene("default", sceneRef.current)
+  
 
     return () => {
       sceneEvents.off("sceneChanged", handleSceneChange)
