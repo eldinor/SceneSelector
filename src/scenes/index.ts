@@ -30,9 +30,9 @@ export const availableScenes: AvailableScene[] = [
   },
   {
     id: "complex",
-    name: "Complex Scene",
-    description: "Multiple animated cubes, ground, and a moving point light.",
-    type: "simple",
+    name: "Neon Grid Tunnel",
+    description: "Dynamic spherical grid with changing colors.",
+    type: "shader material",
   },
   {
     id: "energy",

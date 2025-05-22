@@ -91,26 +91,27 @@ function App() {
             </button>
             {/* Inspector toggle button */}
             <button
-              onClick={handleInspectorToggle}
-              title={inspectorVisible ? "Hide Inspector" : "Show Inspector"}
-              className="flex items-center gap-2 px-3 py-2 rounded hover:bg-slate-200 dark:hover:bg-slate-700 transition"
-              aria-pressed={inspectorVisible}
-            >
-              {/* Simple SVG icon for Inspector (magnifying glass) */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width={22}
-                height={22}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                className="inline-block"
-              >
-                <circle cx="11" cy="11" r="7" strokeWidth="2" />
-                <line x1="16.5" y1="16.5" x2="21" y2="21" strokeWidth="2" strokeLinecap="round" />
-              </svg>
-              <span className="sr-only">{inspectorVisible ? "Hide Inspector" : "Show Inspector"}</span>
-            </button>
+  onClick={handleInspectorToggle}
+  title={inspectorVisible ? "Hide Inspector" : "Show Inspector"}
+  className="flex items-center gap-2 px-3 py-2 rounded hover:bg-slate-200 dark:hover:bg-slate-700 transition"
+  aria-pressed={inspectorVisible}
+>
+  {/* 3D Cube SVG icon */}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={22}
+    height={22}
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    className="inline-block"
+  >
+    <polygon points="12 2 22 7 12 12 2 7 12 2" strokeWidth="2" strokeLinejoin="round" />
+    <polyline points="22 7 22 17 12 22 2 17 2 7" strokeWidth="2" strokeLinejoin="round" />
+    <line x1="12" y1="12" x2="12" y2="22" strokeWidth="2" />
+  </svg>
+  <span className="sr-only">{inspectorVisible ? "Hide Inspector" : "Show Inspector"}</span>
+</button>
           </div>
         </header>
         <main className="flex-1 p-3 overflow-y-auto">

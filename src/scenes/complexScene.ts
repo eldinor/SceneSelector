@@ -1,89 +1,83 @@
 import {
   type Scene,
+  ArcRotateCamera,
+  FreeCamera,
   MeshBuilder,
+  ShaderMaterial,
+  Vector2,
   Vector3,
-  StandardMaterial,
-  Color3,
-  PointLight,
-  Animation,
-  CubicEase,
-  EasingFunction,
-} from "@babylonjs/core"
+} from "@babylonjs/core";
 
 export function createComplexScene(scene: Scene): void {
-  // Create ground
-  const ground = MeshBuilder.CreateGround("ground", { width: 10, height: 10 }, scene)
-  const groundMaterial = new StandardMaterial("groundMaterial", scene)
-  groundMaterial.diffuseColor = new Color3(0.2, 0.2, 0.2)
-  ground.material = groundMaterial
+  const engine = scene.getEngine();
 
-  // Create multiple objects
-  createAnimatedCube(scene, new Vector3(-3, 1, 0), new Color3(1, 0, 0))
-  createAnimatedCube(scene, new Vector3(0, 1, 0), new Color3(0, 1, 0))
-  createAnimatedCube(scene, new Vector3(3, 1, 0), new Color3(0, 0, 1))
+  const camera = new FreeCamera("camera", new Vector3(0, 0, -5), scene);
+  scene.activeCamera = camera;
 
-  // Add point light
-  const light = new PointLight("pointLight", new Vector3(0, 5, 0), scene)
-  light.intensity = 0.8
-  light.diffuse = new Color3(1, 1, 1)
+  const shaderMaterial = new ShaderMaterial(
+    "tunnel",
+    scene,
+    {
+      vertexSource: `
+        precision highp float;
+        attribute vec3 position;
+        attribute vec2 uv;
+        uniform mat4 worldViewProjection;
+        varying vec2 vUv;
+        void main() {
+            vUv = uv;
+            gl_Position = worldViewProjection * vec4(position, 1.0);
+        }
+    `,
+      fragmentSource: `
+        precision highp float;
+        uniform float iTime;
+        uniform vec2 iResolution;
+        varying vec2 vUv;
+        
+        void main() {
+            vec2 uv = (vUv - 0.5) * 2.0;
+            uv.x *= iResolution.x / iResolution.y;
+            
+            // Tunnel effect
+            float a = atan(uv.y, uv.x);
+            float r = length(uv);
+            float m = 1.0 / r * 0.2;
+            
+            // Grid pattern
+            float f1 = fract(m * 5.0 + iTime * 0.5);
+            float f2 = fract(a * 10.0 / (3.1415 * 2.0));
+            
+            // Neon colors
+            vec3 col = vec3(
+                sin(iTime * 0.5) * 0.5 + 0.5,
+                cos(iTime * 0.7) * 0.5 + 0.5,
+                sin(iTime * 0.3 + 1.0) * 0.5 + 0.5
+            );
+            
+            // Grid lines
+            float grid = smoothstep(0.95, 1.0, f1) + smoothstep(0.95, 1.0, f2);
+            grid *= smoothstep(0.1, 0.5, r);
+            
+            gl_FragColor = vec4(col * grid, 1.0);
+        }
+    `,
+    },
+    {
+      attributes: ["position", "uv"],
+      uniforms: ["worldViewProjection", "iTime", "iResolution"],
+    }
+  );
 
-  // Animate light
-  const lightAnimation = new Animation(
-    "lightAnimation",
-    "position",
-    30,
-    Animation.ANIMATIONTYPE_VECTOR3,
-    Animation.ANIMATIONLOOPMODE_CYCLE,
-  )
+  const plane = MeshBuilder.CreatePlane("plane", { size: 5 }, scene);
+  plane.material = shaderMaterial;
 
-  const keyFrames = [
-    { frame: 0, value: new Vector3(0, 5, 0) },
-    { frame: 60, value: new Vector3(5, 5, 0) },
-    { frame: 120, value: new Vector3(0, 5, 5) },
-    { frame: 180, value: new Vector3(-5, 5, 0) },
-    { frame: 240, value: new Vector3(0, 5, -5) },
-    { frame: 300, value: new Vector3(0, 5, 0) },
-  ]
-
-  lightAnimation.setKeys(keyFrames)
-
-  const easingFunction = new CubicEase()
-  easingFunction.setEasingMode(EasingFunction.EASINGMODE_EASEINOUT)
-  lightAnimation.setEasingFunction(easingFunction)
-
-  light.animations = [lightAnimation]
-  scene.beginAnimation(light, 0, 300, true)
-}
-
-function createAnimatedCube(scene: Scene, position: Vector3, color: Color3) {
-  const box = MeshBuilder.CreateBox("box", { size: 1 }, scene)
-  box.position = position
-
-  const material = new StandardMaterial(`material-${position.x}`, scene)
-  material.diffuseColor = color
-  box.material = material
-
-  // Create animation
-  const animation = new Animation(
-    `boxAnimation-${position.x}`,
-    "position.y",
-    30,
-    Animation.ANIMATIONTYPE_FLOAT,
-    Animation.ANIMATIONLOOPMODE_CYCLE,
-  )
-
-  const keys = [
-    { frame: 0, value: position.y },
-    { frame: 30, value: position.y + 1 },
-    { frame: 60, value: position.y },
-  ]
-
-  animation.setKeys(keys)
-  box.animations = [animation]
-  scene.beginAnimation(box, 0, 60, true)
-
-  // Also add rotation
   scene.registerBeforeRender(() => {
-    box.rotation.y += 0.01
-  })
+    shaderMaterial.setFloat("iTime", performance.now() / 1000);
+    shaderMaterial.setVector2("iResolution", new Vector2(engine.getRenderWidth(), engine.getRenderHeight()));
+  });
+
+  plane.onDisposeObservable.addOnce(() => {
+    camera.dispose();
+  });
 }

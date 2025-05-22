@@ -136,7 +136,7 @@ export const BabylonScene = ({ inspectorVisible = false }: BabylonSceneProps) =>
 
   return (
     <div className="w-full" style={{ width: "100%", height: "100%" }}>
-      <canvas ref={canvasRef} className="w-full h-full" style={{ width: "100%", height: "100%" }} />
+      <canvas ref={canvasRef} className="w-full h-full" style={{ width: "100%", height: "100%", outline:"none" }} />
     </div>
   );
 };
