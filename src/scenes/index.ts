@@ -24,9 +24,9 @@ export const availableScenes: AvailableScene[] = [
   },
   {
     id: "sphere",
-    name: "Sphere Scene",
-    description: "A rotating sphere with a blue material and lighting.",
-    type: "simple",
+    name: "Sinus-Cosinus 3D",
+    description: "Postprocess shader with stunning effects.",
+    type: "postprocess",
   },
   {
     id: "complex",
@@ -41,7 +41,7 @@ export const availableScenes: AvailableScene[] = [
     type: "shader material",
   },
   {
-    id: "test2",
+    id: "drive",
     name: "The Drive Home",
     description: "Night Drive under the rain PostProcess.",
     type: "postprocess",
@@ -63,7 +63,7 @@ export function loadScene(sceneName: string, scene: Scene): void {
     case "energy":
       createEnergyShield(scene);
       break;
-    case "test2":
+    case "drive":
       createTestScene2(scene);
       break;
     default:

@@ -88,30 +88,30 @@ const SceneCardList = ({ currentScene, onSceneChange }: SceneCardListProps) => {
     <div className="flex flex-col gap-4">
       {/* Scene type pills */}
       <div className="flex gap-2 mb-2 flex-wrap">
-        <button
-          type="button"
-          className={`px-3 py-1 rounded-full text-xs font-medium border transition
-            ${selectedType === null
-              ? "bg-primary text-white border-primary"
-              : "bg-slate-200 text-slate-700 border-slate-300 hover:bg-slate-300"}
-          `}
-          onClick={() => setSelectedType(null)}
-        >
-          All
-        </button>
-        {sceneTypes.map(type => (
-          <button
-            key={type}
-            type="button"
-            className={`px-3 py-1 rounded-full text-xs font-medium border transition
-              ${selectedType === type
-                ? "bg-primary text-white border-primary"
-                : "bg-slate-200 text-slate-700 border-slate-300 hover:bg-slate-300"}
-            `}
-            onClick={() => setSelectedType(type)}
-          >
-            {type}
-          </button>
+      <button
+    type="button"
+    className={`px-3 py-1 rounded-full text-xs font-medium border transition
+      ${selectedType === null
+        ? "bg-primary text-teal-300 border-primary"
+        : "bg-slate-200 text-teal-600 border-slate-300 hover:bg-slate-300  "}
+    `}
+    onClick={() => setSelectedType(null)}
+  >
+    All
+  </button>
+  {sceneTypes.map(type => (
+    <button
+      key={type}
+      type="button"
+      className={`px-3 py-1 rounded-full text-xs font-medium border transition
+        ${selectedType === type
+          ? "text-slate-900 border-primary dark:text-slate-300"
+          : "bg-slate-200 text-slate-400 border-slate-300 hover:bg-teal-300"}
+      `}
+      onClick={() => setSelectedType(type)}
+    >
+      {type}
+    </button>
         ))}
       </div>
       {/* Scene cards */}
@@ -124,12 +124,12 @@ const SceneCardList = ({ currentScene, onSceneChange }: SceneCardListProps) => {
         onClick={() => onSceneChange(scene.id)}
       >
         <CardHeader>
-          <CardTitle className="text-[1.2rem] font-medium">{scene.name}</CardTitle>
+          <CardTitle className="text-[1.2rem] font-medium">{scene.name} </CardTitle>
+          <span className="text-xs text-slate-500 uppercase font-light tracking-wider">{scene.type}</span>
           <CardDescription>{scene.description}</CardDescription>
         </CardHeader>
         <CardContent>
-          <span className="text-xs text-muted-foreground block">ID: {scene.id}</span>
-          <span className="text-xs text-muted-foreground block">Type: {scene.type}</span>
+          <span className="text-xs text-muted-foreground block ">ID: {scene.id}</span>
         </CardContent>
       </Card>
     ))}

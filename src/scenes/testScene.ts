@@ -1,4 +1,4 @@
-import { type Scene, Color3, Engine, MeshBuilder, ShaderMaterial, Vector3 } from "@babylonjs/core";
+import { type Scene, Engine, MeshBuilder, ShaderMaterial, Vector3 } from "@babylonjs/core";
 import * as GUI from "@babylonjs/gui";
 
 export function createEnergyShield(scene: Scene): void {
@@ -136,8 +136,9 @@ export function createEnergyShield(scene: Scene): void {
   shieldSphere.material = shieldMaterial;
 
   // Animation and interaction
-  let shieldDamage = shieldProperties.health;
   /*
+  let shieldDamage = shieldProperties.health;
+ 
   scene.registerBeforeRender(() => {
     shieldMaterial.setFloat("time", Date.now() / 1000);
     if (scene.activeCamera) {
@@ -164,9 +165,9 @@ export function createEnergyShield(scene: Scene): void {
     //
     // Color picker using our stored color
     const colorPicker = new GUI.ColorPicker();
-    colorPicker.value.r = shieldProperties.color.r;
-    colorPicker.value.g = shieldProperties.color.g;
-    colorPicker.value.b = shieldProperties.color.b;
+    colorPicker.value.r = shieldProperties.color.x;
+    colorPicker.value.g = shieldProperties.color.y;
+    colorPicker.value.b = shieldProperties.color.z;
     colorPicker.onValueChangedObservable.add((value: any) => {
       shieldProperties.color.x = value.r;
       shieldProperties.color.y = value.g;
