@@ -15,7 +15,7 @@ interface SceneViewToggleProps {
 export const SceneViewToggle = ({
   currentScene,
   onSceneChange,
-  children, // remove later
+  children,
 }: SceneViewToggleProps) => {
   const [viewMode, setViewMode] = useState<"selector" | "cards">("cards"); // Default to "cards" for sidebar
 
@@ -54,9 +54,14 @@ export const SceneViewToggle = ({
         </div>
       </aside>
       {/* Canvas Area */}
-      <div className="flex-1 flex flex-col h-screen">
+      <div className="flex-1 flex flex-col">
         {/* Canvas fills the rest */}
         <main className="flex-1 w-full overflow-hidden flex flex-col">
+          {/* 
+            To ensure the Babylon canvas fits, 
+            make sure the canvas component uses className="w-full h-full" 
+            or style={{ width: "100%", height: "100%" }}.
+          */}
           {children}
         </main>
       </div>
