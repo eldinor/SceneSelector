@@ -85,7 +85,7 @@ const SceneCardList = ({ currentScene, onSceneChange }: SceneCardListProps) => (
         onClick={() => onSceneChange(scene.id)}
       >
         <CardHeader>
-          <CardTitle>{scene.name}</CardTitle>
+          <CardTitle className="text-[1.2rem] font-medium">{scene.name}</CardTitle>
           <CardDescription>{scene.description}</CardDescription>
         </CardHeader>
         <CardContent>

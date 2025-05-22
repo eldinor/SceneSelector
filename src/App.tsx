@@ -55,7 +55,7 @@ function App() {
             <span className="sr-only">{inspectorVisible ? "Hide Inspector" : "Show Inspector"}</span>
           </button>
         </header>
-        <main className="flex-1 p-6 overflow-y-auto">
+        <main className="flex-1 p-3 overflow-y-auto">
           <BabylonScene inspectorVisible={inspectorVisible} />
         </main>
       </div>

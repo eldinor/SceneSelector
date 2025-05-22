@@ -29,8 +29,8 @@ export const availableScenes = [
   },
   {
     id: "test2",
-    name: "Test2 Scene",
-    description: "Testing! 22",
+    name: "The Drive Home",
+    description: "Night Drive under the rain PostProcess.",
   },
 ];
 

@@ -15,6 +15,23 @@ export const BabylonScene = ({ inspectorVisible = false }: BabylonSceneProps) =>
   const sceneRef = useRef<Scene | null>(null);
   const inspectorLoadedRef = useRef<boolean>(false);
 
+  // Helper to set canvas parent height to screen minus header and 30px padding
+  const setCanvasParentHeight = () => {
+    const canvas = canvasRef.current;
+    if (!canvas || !canvas.parentElement) return;
+
+    // Try to find the header element (assumes <header> tag is used)
+    const header = document.querySelector("header");
+    const headerHeight = header ? header.getBoundingClientRect().height : 0;
+    // Subtract 30px for padding
+    const newHeight = window.innerHeight - headerHeight - 30;
+
+    canvas.parentElement.style.height = `${newHeight}px`;
+    // Optionally, also set canvas height for extra safety
+    canvas.style.height = "100%";
+    canvas.style.width = "100%";
+  };
+
   // Initialize the Babylon.js engine and scene
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -43,8 +60,12 @@ export const BabylonScene = ({ inspectorVisible = false }: BabylonSceneProps) =>
     // Handle window resize
     const handleResize = () => {
       engine.resize();
+      setCanvasParentHeight();
     };
     window.addEventListener("resize", handleResize);
+
+    // Initial layout
+    setCanvasParentHeight();
 
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -104,10 +125,20 @@ export const BabylonScene = ({ inspectorVisible = false }: BabylonSceneProps) =>
       showInspector();
     } else if (inspectorLoadedRef.current && sceneRef.current.debugLayer.isVisible()) {
       sceneRef.current.debugLayer.hide();
+      
+      // After hiding Inspector, recalculate canvas parent height
+      setTimeout(() => {
+        setCanvasParentHeight();
+        window.dispatchEvent(new Event("resize"));
+      }, 0);
     }
   }, [inspectorVisible]);
 
-  return <canvas ref={canvasRef} className="w-full h-full" />;
+  return (
+    <div className="w-full" style={{ width: "100%", height: "100%" }}>
+      <canvas ref={canvasRef} className="w-full h-full" style={{ width: "100%", height: "100%" }} />
+    </div>
+  );
 };
 
 // Setup default camera and light
