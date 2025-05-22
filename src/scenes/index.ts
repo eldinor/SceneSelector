@@ -5,32 +5,46 @@ import { createComplexScene } from "./complexScene";
 import { createEnergyShield } from "./testScene";
 import { createTestScene2 } from "./testScene2";
 
+// Define scene types
+export type SceneType = "simple" | "shader material" | "postprocess";
+
 // Define available scenes
-export const availableScenes = [
+export interface AvailableScene {
+  id: string;
+  name: string;
+  description: string;
+  type: SceneType;
+}
+export const availableScenes: AvailableScene[] = [
   {
     id: "default",
     name: "Default Scene",
     description: "A simple rotating box on a flat surface.",
+    type: "simple",
   },
   {
     id: "sphere",
     name: "Sphere Scene",
     description: "A rotating sphere with a blue material and lighting.",
+    type: "simple",
   },
   {
     id: "complex",
     name: "Complex Scene",
     description: "Multiple animated cubes, ground, and a moving point light.",
+    type: "simple",
   },
   {
     id: "energy",
     name: "Energy Shield",
     description: "Shader Material which may take a damage and become thinner.",
+    type: "shader material",
   },
   {
     id: "test2",
     name: "The Drive Home",
     description: "Night Drive under the rain PostProcess.",
+    type: "postprocess",
   },
 ];
 

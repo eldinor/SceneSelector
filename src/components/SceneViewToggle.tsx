@@ -74,9 +74,48 @@ interface SceneCardListProps {
   currentScene: string;
   onSceneChange: (sceneId: string) => void;
 }
-const SceneCardList = ({ currentScene, onSceneChange }: SceneCardListProps) => (
-  <div className="flex flex-col gap-4">
-    {availableScenes.map((scene) => (
+const SceneCardList = ({ currentScene, onSceneChange }: SceneCardListProps) => {
+  // Extract unique scene types
+  const sceneTypes = Array.from(new Set(availableScenes.map(scene => scene.type)));
+  const [selectedType, setSelectedType] = useState<string | null>(null);
+
+  // Filter scenes by selected type, or show all if none selected
+  const filteredScenes = selectedType
+    ? availableScenes.filter(scene => scene.type === selectedType)
+    : availableScenes;
+
+  return (
+    <div className="flex flex-col gap-4">
+      {/* Scene type pills */}
+      <div className="flex gap-2 mb-2 flex-wrap">
+        <button
+          type="button"
+          className={`px-3 py-1 rounded-full text-xs font-medium border transition
+            ${selectedType === null
+              ? "bg-primary text-white border-primary"
+              : "bg-slate-200 text-slate-700 border-slate-300 hover:bg-slate-300"}
+          `}
+          onClick={() => setSelectedType(null)}
+        >
+          All
+        </button>
+        {sceneTypes.map(type => (
+          <button
+            key={type}
+            type="button"
+            className={`px-3 py-1 rounded-full text-xs font-medium border transition
+              ${selectedType === type
+                ? "bg-primary text-white border-primary"
+                : "bg-slate-200 text-slate-700 border-slate-300 hover:bg-slate-300"}
+            `}
+            onClick={() => setSelectedType(type)}
+          >
+            {type}
+          </button>
+        ))}
+      </div>
+      {/* Scene cards */}
+      {filteredScenes.map((scene) => (
       <Card
         key={scene.id}
         className={`cursor-pointer transition-shadow hover:shadow-lg ${
@@ -89,9 +128,14 @@ const SceneCardList = ({ currentScene, onSceneChange }: SceneCardListProps) => (
           <CardDescription>{scene.description}</CardDescription>
         </CardHeader>
         <CardContent>
-          <span className="text-xs text-muted-foreground">ID: {scene.id}</span>
+          <span className="text-xs text-muted-foreground block">ID: {scene.id}</span>
+          <span className="text-xs text-muted-foreground block">Type: {scene.type}</span>
         </CardContent>
       </Card>
     ))}
+    {filteredScenes.length === 0 && (
+      <div className="text-center text-muted-foreground text-xs mt-8">No scenes found for this type.</div>
+    )}
   </div>
-);
+  );
+};
